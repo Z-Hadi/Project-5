@@ -1,6 +1,6 @@
 /* Getting access to DOM elements */
 
-const articaleImage = document.getElementsByClassName('item__img');
+const articaleImage = document.querySelector('.item__img');
 const itemTitle = document.getElementById('title');
 const itemPrice = document.getElementById('price');
 const itemDescription = document.getElementById('description');
@@ -22,9 +22,11 @@ blancOption.setAttribute('value', 'blanc');
 itemTitle.textContent = 'Nom du produit';
 itemPrice.textContent = '42';
 itemDescription.textContent = 'Dis enim malesuada risus sapien gravida nulla nisl arcu.';
+vertOption.textContent = 'vert';
+blancOption.textContent = 'blanc';
 
 /* Adding new elements to the  DOM */
 
-articaleImage.appendChild('newImage');
-colorSelect.appendChild('vertOption');
-colorSelect.appendChild('blancOption');
+articaleImage.appendChild(newImage);
+colorSelect.appendChild(vertOption);
+colorSelect.appendChild(blancOption);

@@ -57,17 +57,17 @@ errorMessageParaghraph.textContent = 'ci est un message d erreur';
 
 /* Adding new elements to the  DOM */
 
-cartSection.appendChild('cartArticale');
-cartImageDiv.appendChild('cartImage');
-cartArticale.appendChild('cartImageDiv');
-cartDescriptionDiv.appendChild('productName');
-cartDescriptionDiv.appendChild('productColor');
-cartDescriptionDiv.appendChild('productPrice');
-cartContentDiv.appendChild('cartDescriptionDiv');
-cartArticale.appendChild('cartContentDiv');
-cartQuantityDiv.appendChild('quantityParaghraph');
-cartQuantityDiv.appendChild('quantityInput');
-cartSettingsDiv.appendChild('cartQuantityDiv');
-cartDeleteDiv.appendChild('deleteItemParaghraph');
-cartSettingsDiv.appendChild('cartDeleteDiv');
-cartContentDiv.appendChild('cartSettingsDiv');
+cartSection.appendChild(cartArticale);
+cartImageDiv.appendChild(cartImage);
+cartArticale.appendChild(cartImageDiv);
+cartDescriptionDiv.appendChild(productName);
+cartDescriptionDiv.appendChild(productColor);
+cartDescriptionDiv.appendChild(productPrice);
+cartContentDiv.appendChild(cartDescriptionDiv);
+cartArticale.appendChild(cartContentDiv);
+cartQuantityDiv.appendChild(quantityParaghraph);
+cartQuantityDiv.appendChild(quantityInput);
+cartSettingsDiv.appendChild(cartQuantityDiv);
+cartDeleteDiv.appendChild(deleteItemParaghraph);
+cartSettingsDiv.appendChild(cartDeleteDiv);
+cartContentDiv.appendChild(cartSettingsDiv);
