@@ -3,8 +3,8 @@ fetch('http://localhost:3000/api/products')
     .then(products => {
         for (let i = 0; i < products.length; i++) {
             const product = products[i];
-            console.log
-                /* Getting access to DOM elements */
+            console.log(products);
+            /* Getting access to DOM elements */
 
             const section = document.getElementById('items');
 
@@ -17,12 +17,18 @@ fetch('http://localhost:3000/api/products')
             const newParaghrapg = document.createElement('p');
 
             /* Setting elements attributes */
-
-            newLink.setAttribute('href', './product.html?id=42');
+            const productId = product._id;
+            console.log(productId);
+            newLink.setAttribute('href', './product.html?id=productId');
             newImage.setAttribute('src', product.imageUrl);
-            newImage.setAttribute('alt', 'Lorem ipsum dolor sit amet, Kanap name1');
+            newImage.setAttribute('alt', product.altTxt);
             newHeading.classList.add('productName');
             newParaghrapg.classList.add('productDescription');
+
+            /* Modifying Elements */
+            newHeading.textContent = product.name;
+            newParaghrapg.textContent = product.description;
+
 
             /* Adding new elements to the  DOM */
 
