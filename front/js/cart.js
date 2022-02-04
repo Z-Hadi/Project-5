@@ -1,11 +1,20 @@
+const newProductID = localStorage.getItem('cartProductID');
+const newProductColor = localStorage.getItem('Product-Color');
+const newProductQuantity = localStorage.getItem('Product-Quantity');
+
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
 /* Getting access to DOM elements */
 
-const cartSection = document.getElementsByClassName('cart__items');
+const cartSection = document.getElementById('cart__items');
 const quantitySpan = document.getElementById('totalQuantity');
 const priceSpan = document.getElementById('totalPrice');
 const errorMessageParaghraph = document.getElementById('firstNameErrorMsg');
 
 /* Creating the missing elements */
+
+
 
 const cartArticale = document.createElement('articale');
 const cartImageDiv = document.createElement('div');
@@ -33,22 +42,24 @@ cartDescriptionDiv.setAttribute('class', 'cart__item__content__description');
 cartSettingsDiv.setAttribute('class', 'cart__item__content__settings');
 cartQuantityDiv.setAttribute('class', 'cart__item__content__settings__quantity');
 cartDeleteDiv.setAttribute('class', 'cart__item__content__settings__delete');
-cartImage.setAttribute('src', '../images/product01.jpg');
-cartImage.setAttribute('alt', 'Photo of a sofa');
-quantityInput.setAttribute(' type ', 'number  ');
-quantityInput.setAttribute(' class ', 'itemQuantity  ');
-quantityInput.setAttribute('name  ', ' itemQuantity ');
-quantityInput.setAttribute(' min ', ' 1 ');
-quantityInput.setAttribute(' max ', ' 100 ');
-quantityInput.setAttribute(' value ', ' 42 ');
+cartImage.setAttribute('src', product.imageUrl);
+cartImage.setAttribute('alt', product.altTxt);
+
+
+quantityInput.setAttribute('type', 'number');
+quantityInput.setAttribute('class', 'itemQuantity');
+quantityInput.setAttribute('name', ' itemQuantity');
+quantityInput.setAttribute('min', '1');
+quantityInput.setAttribute('max', '100');
+quantityInput.setAttribute('value', newProductQuantity);
 
 
 /* Modifying Elements */
 
-productName.textContent = 'Name of the product';
-productColor.textContent = 'Green';
-productPrice.textContent = '£ 42.00';
-quantityParaghraph.textContent = 'Qté : ';
+productName.textContent = product.name;
+productColor.textContent = product.colors;
+productPrice.textContent = product.name;
+quantityParaghraph.textContent = 'Qté :  ';
 deleteItemParaghraph.textContent = 'Delete ';
 
 quantitySpan.textContent = '2 ';

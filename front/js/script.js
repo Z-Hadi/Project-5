@@ -19,7 +19,7 @@ fetch('http://localhost:3000/api/products')
             /* Setting elements attributes */
             const productId = product._id;
             console.log(productId);
-            newLink.setAttribute('href', './product.html?id=productId');
+            newLink.setAttribute('href', './product.html?id=' + productId);
             newImage.setAttribute('src', product.imageUrl);
             newImage.setAttribute('alt', product.altTxt);
             newHeading.classList.add('productName');
