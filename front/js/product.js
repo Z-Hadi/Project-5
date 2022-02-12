@@ -25,7 +25,7 @@ fetch('http://localhost:3000/api/products/' + productId)
             option.setAttribute('value', product.colors[i]);
             option.textContent = product.colors[i];
             colorSelect.appendChild(option);
-            };
+        };
 
 
         /* Setting elements attributes */
@@ -44,23 +44,57 @@ fetch('http://localhost:3000/api/products/' + productId)
 
         articaleImage.appendChild(newImage);
 
-        colors.addEventListener('change', function ($event) {
-            const productColor = $event.target.value;
-             console.log(productColor);
-                     
-                 });  
 
 
-        itemQuantity.addEventListener('input', function ($event) {
-        if ($event.target.value >=1 && $event.target.value <=100 ){
-            const productQty = $event.target.value;
-            console.log(productQty);
-        }else{
-            reject({error:"Not valid Qty!"});
-        }
-        console.log(productQty);
-        });    
 
 
-         
+        function getCart() {
+            let cart = localStorage.getItem('basketContent')
+
+            if (cart) {
+                cart = JSON.parse(cart)
+            } else {
+                cart = []
+            }
+
+            return cart
+        };
+
+        function setCart(cart) {
+            localStorage.setItem('basketContent', JSON.stringify(cart))
+        };
+
+        function addToCart(product, cart) {
+            let productExists = false
+                // Add a product
+            for (let i = 0; i < cart.length; i++) {
+                if (product._id === cart[i]._id && cart[i].color === product.color) {
+                    cart[i].quantity += product.quantity
+                    cart[i].price += product.price * product.quantity
+                    productExists = true
+                    break
+                }
+            }
+            if (!productExists) {
+                cart.push(product)
+            }
+
+            return cart
+        };
+        button.addEventListener('click', () => {
+            const currentCart = getCart()
+
+            const cart = addToCart({
+                _id: product._id,
+                name: product.name,
+                altTxt: product.altTxt,
+                imageUrl: product.imageUrl,
+                price: product.price,
+                quantity: parseInt(itemQuantity.value),
+                color: colors.value
+            }, currentCart)
+            console.log(cart);
+            setCart(cart)
+        });
+
     });
