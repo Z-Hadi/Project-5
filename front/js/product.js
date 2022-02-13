@@ -93,8 +93,9 @@ fetch('http://localhost:3000/api/products/' + productId)
                 quantity: parseInt(itemQuantity.value),
                 color: colors.value
             }, currentCart)
-            console.log(cart);
+            
             setCart(cart)
+            document.location.href = "./cart.html";
         });
 
     });
