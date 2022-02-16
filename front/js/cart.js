@@ -14,7 +14,7 @@ function setCart(cart) {
     localStorage.setItem("basketContent", JSON.stringify(cart));
 }
 
-const cart = getCart();
+let cart = getCart();
 
 let totalCost = 0;
 let tolalQuantity = 0;
@@ -30,6 +30,18 @@ for (let i = 0; i < cart.length; i++) {
     const quantitySpan = document.getElementById("totalQuantity");
     const priceSpan = document.getElementById("totalPrice");
     const errorMessageParaghraph = document.getElementById("firstNameErrorMsg");
+    const submitOrder = document.getElementById("order");
+
+
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
+const addressInput = document.getElementById('address');
+const cityInput = document.getElementById('city');
+const emailInput = document.getElementById('email');
+
+
+    
+    const newTry = document.getElementsByClassName("itemQuantity");
 
     /* Creating the missing elements */
 
@@ -47,7 +59,7 @@ for (let i = 0; i < cart.length; i++) {
     const quantityParaghraph = document.createElement("p");
     const quantityInput = document.createElement("input");
     const deleteItem = document.createElement("p");
-
+const url =  'http://localhost:3000/api/products' ;
     /* Setting elements attributes */
 
     cartArticale.setAttribute("class", "cart__item");
@@ -57,10 +69,7 @@ for (let i = 0; i < cart.length; i++) {
     cartContentDiv.setAttribute("class", "cart__item__content");
     cartDescriptionDiv.setAttribute("class", "cart__item__content__description");
     cartSettingsDiv.setAttribute("class", "cart__item__content__settings");
-    cartQuantityDiv.setAttribute(
-        "class",
-        "cart__item__content__settings__quantity"
-    );
+    cartQuantityDiv.setAttribute("class", "cart__item__content__settings__quantity" );
     cartDeleteDiv.setAttribute("class", "cart__item__content__settings__delete");
     cartImage.setAttribute("src", product.imageUrl);
     cartImage.setAttribute("alt", product.altTxt);
@@ -102,12 +111,23 @@ for (let i = 0; i < cart.length; i++) {
     cartSettingsDiv.appendChild(cartDeleteDiv);
     cartContentDiv.appendChild(cartSettingsDiv);
 
-    const index = cart.indexOf(cart[i]);
-    console.log(index);
-
+    /* Event Listeners */
+   
     deleteItem.addEventListener("click", () => {
-        cart.splice(index, 1);
-        setCart(cart);
-        location.reload(true);
+    cart.splice(cart.indexOf(cart[i]), 1);
+    setCart(cart);
+    location.reload(true);
     });
+
+
+    quantityInput.addEventListener("change", () => {
+        product.quantity= parseInt(quantityInput.value);
+        if ( product.quantity === 0 ){
+            cart.splice(cart.indexOf(cart[i]), 1);
+            setCart(cart);
+            location.reload(true); }else{
+         setCart(cart);}
+          });
+
+         
 }

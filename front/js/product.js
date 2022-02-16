@@ -31,6 +31,7 @@ fetch('http://localhost:3000/api/products/' + productId)
         /* Setting elements attributes */
         newImage.setAttribute('src', product.imageUrl);
         newImage.setAttribute('alt', product.altTxt);
+        // itemQuantity.setAttribute('','required')
 
 
 
@@ -68,7 +69,7 @@ fetch('http://localhost:3000/api/products/' + productId)
             let productExists = false
                 // Add a product
             for (let i = 0; i < cart.length; i++) {
-                if (product._id === cart[i]._id && cart[i].color === product.color) {
+                if (product._id === cart[i]._id && cart[i].color === product.color ) {
                     cart[i].quantity += product.quantity
                     cart[i].price += product.price * product.quantity
                     productExists = true
@@ -82,6 +83,9 @@ fetch('http://localhost:3000/api/products/' + productId)
             return cart
         };
         button.addEventListener('click', () => {
+            if ( parseInt(itemQuantity.value) > 0 ){
+                console.log(colorSelect);
+                if ( colorSelect.value != 0 ){
             const currentCart = getCart()
 
             const cart = addToCart({
@@ -96,6 +100,12 @@ fetch('http://localhost:3000/api/products/' + productId)
             
             setCart(cart)
             document.location.href = "./cart.html";
+        } else {
+            reject({error: "color is required"});}
+        } else {
+            reject({error: "Number of articles is required"});
+
+        }
         });
 
     });
