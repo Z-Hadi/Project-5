@@ -30,19 +30,9 @@ for (let i = 0; i < cart.length; i++) {
     const quantitySpan = document.getElementById("totalQuantity");
     const priceSpan = document.getElementById("totalPrice");
     const errorMessageParaghraph = document.getElementById("firstNameErrorMsg");
+    let orderForm = document .getElementsByClassName('cart__order__form');
     const submitOrder = document.getElementById("order");
-
-
-const firstNameInput = document.getElementById('firstName');
-const lastNameInput = document.getElementById('lastName');
-const addressInput = document.getElementById('address');
-const cityInput = document.getElementById('city');
-const emailInput = document.getElementById('email');
-
-
-    
-    const newTry = document.getElementsByClassName("itemQuantity");
-
+  
     /* Creating the missing elements */
 
     const cartArticale = document.createElement("articale");
@@ -59,7 +49,7 @@ const emailInput = document.getElementById('email');
     const quantityParaghraph = document.createElement("p");
     const quantityInput = document.createElement("input");
     const deleteItem = document.createElement("p");
-const url =  'http://localhost:3000/api/products' ;
+
     /* Setting elements attributes */
 
     cartArticale.setAttribute("class", "cart__item");
@@ -121,12 +111,23 @@ const url =  'http://localhost:3000/api/products' ;
 
 
     quantityInput.addEventListener("change", () => {
+
+       /* if ( (parseInt(quantityInput.value))  >= 1 && (parseInt(quantityInput.value)) < 101 ){
+            if ( (parseInt(quantityInput.value))  === 0 ){
+                cart.splice(cart.indexOf(cart[i]), 1);
+                setCart(cart);
+                location.reload(true); } ;
         product.quantity= parseInt(quantityInput.value);
-        if ( product.quantity === 0 ){
-            cart.splice(cart.indexOf(cart[i]), 1);
-            setCart(cart);
-            location.reload(true); }else{
-         setCart(cart);}
+        }
+               setCart(cart);
+          }); */
+
+          product.quantity= parseInt(quantityInput.value);
+            if ( (parseInt(quantityInput.value))  === 0 ){
+                cart.splice(cart.indexOf(cart[i]), 1);
+                setCart(cart);
+                location.reload(true); } ;
+               setCart(cart);
           });
 
          

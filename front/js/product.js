@@ -83,9 +83,9 @@ fetch('http://localhost:3000/api/products/' + productId)
             return cart
         };
         button.addEventListener('click', () => {
-            if ( parseInt(itemQuantity.value) > 0 ){
+            if (  colorSelect.value != 0  ){
                 console.log(colorSelect);
-                if ( colorSelect.value != 0 ){
+                if ( parseInt(itemQuantity.value) > 0){
             const currentCart = getCart()
 
             const cart = addToCart({
@@ -101,9 +101,9 @@ fetch('http://localhost:3000/api/products/' + productId)
             setCart(cart)
             document.location.href = "./cart.html";
         } else {
-            reject({error: "color is required"});}
+            window.alert("Please select a quantity !");;}
         } else {
-            reject({error: "Number of articles is required"});
+            window.alert("Please select a color !");
 
         }
         });
