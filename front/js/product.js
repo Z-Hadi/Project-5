@@ -16,6 +16,7 @@ fetch('http://localhost:3000/api/products/' + productId)
         const itemQuantity = document.getElementById('quantity');
 
 
+
         /* Creating the missing elements */
 
         const newImage = document.createElement('img');
@@ -69,7 +70,7 @@ fetch('http://localhost:3000/api/products/' + productId)
             let productExists = false
                 // Add a product
             for (let i = 0; i < cart.length; i++) {
-                if (product._id === cart[i]._id && cart[i].color === product.color ) {
+                if (product._id === cart[i]._id && cart[i].color === product.color) {
                     cart[i].quantity += product.quantity
                     cart[i].price += product.price * product.quantity
                     productExists = true
@@ -83,29 +84,50 @@ fetch('http://localhost:3000/api/products/' + productId)
             return cart
         };
         button.addEventListener('click', () => {
-            if (  colorSelect.value != 0  ){
+            if (colorSelect.value != 0 && parseInt(itemQuantity.value) > 0) {
                 console.log(colorSelect);
-                if ( parseInt(itemQuantity.value) > 0){
-            const currentCart = getCart()
+                const currentCart = getCart()
 
-            const cart = addToCart({
-                _id: product._id,
-                name: product.name,
-                altTxt: product.altTxt,
-                imageUrl: product.imageUrl,
-                price: product.price,
-                quantity: parseInt(itemQuantity.value),
-                color: colors.value
-            }, currentCart)
-            
-            setCart(cart)
-            document.location.href = "./cart.html";
-        } else {
-            window.alert("Please select a quantity !");;}
-        } else {
-            window.alert("Please select a color !");
+                const cart = addToCart({
+                    _id: product._id,
+                    name: product.name,
+                    altTxt: product.altTxt,
+                    imageUrl: product.imageUrl,
+                    price: product.price,
+                    quantity: parseInt(itemQuantity.value),
+                    color: colors.value
+                }, currentCart)
 
-        }
+                setCart(cart)
+                document.location.href = "./cart.html";
+            }
+
+            if (!colorSelect.value) {
+                colorSelect.style.border = " 2px red solid";
+            }
+            if (parseInt(itemQuantity.value) <= 0) {
+                itemQuantity.style.border = " 2px red solid";
+            }
+
+
+        });
+
+        itemQuantity.addEventListener('change', () => {
+
+            if (parseInt(itemQuantity.value) > 0) {
+                itemQuantity.style.border = " none";
+            } else {
+                itemQuantity.style.border = " 2px red solid";
+            }
+        });
+
+        colorSelect.addEventListener('change', () => {
+
+            if (colorSelect.value != 0) {
+                colorSelect.style.border = " none";
+            } else {
+                colorSelect.style.border = " 2px red solid";
+            }
         });
 
     });
