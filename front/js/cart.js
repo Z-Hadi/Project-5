@@ -47,10 +47,6 @@ function deleteCartItem(cart, index) {
 };
 
 
-
-
-
-
 function displayCart(cart) {
 
     let cost = 0;
@@ -64,8 +60,6 @@ function displayCart(cart) {
 
     for (let i = 0; i < cart.length; i++) {
         const product = cart[i];
-
-
 
         cost += product.price * product.quantity;
         quantity += product.quantity;
@@ -122,8 +116,6 @@ function displayCart(cart) {
 
         const productIDs = [];
         productIDs.push = (cart[i]._id);
-
-
 
         cartSection.appendChild(cartArticale);
         cartImageDiv.appendChild(cartImage);
@@ -204,61 +196,121 @@ city.setAttribute('pattern', "[a-zA-Z]{1,20}");
 
 const email = document.getElementById("email");
 const emailErrorMsg = document.getElementById("emailErrorMsg");
-email.setAttribute('pattern', "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}");
+
 
 const form = document.querySelector('.cart__order__form');
 form.setAttribute('novalidate', true)
 
 
-const productIDs = [cart.map(product => product._id)]
+
+firstName.addEventListener('input', () => {
+    if (!firstName.checkValidity()) {
+        firstName.style.border = '2.5px  solid red';
+        firstNameErrorMsg.textContent = "Please provide a valid first name"
+    } else {
+        firstName.style.border = '2.5px  solid green';
+        firstNameErrorMsg.textContent = ''
+    };
+
+})
+
+lastName.addEventListener('input', () => {
+    if (!lastName.checkValidity()) {
+        lastName.style.border = '2.5px  solid red';
+        lastNameErrorMsg.textContent = "Please provide a valid last name"
+    } else {
+        lastName.style.border = '2.5px  solid green';
+        lastNameErrorMsg.textContent = ''
+    };
+
+})
 
 
-// Submit Event listner
+address.addEventListener('input', () => {
+    if (!address.checkValidity()) {
+        address.style.border = '2.5px  solid red';
+        addressErrorMsg.textContent = "Please provide a valid address "
+    } else {
+        address.style.border = '2.5px  solid green';
+        addressErrorMsg.textContent = ''
+    };
+
+})
+
+city.addEventListener('input', () => {
+    if (!city.checkValidity()) {
+        city.style.border = '2.5px  solid red';
+        cityErrorMsg.textContent = "Please provide a valid city name"
+    } else {
+        city.style.border = '2.5px  solid green';
+        cityErrorMsg.textContent = ''
+    };
+
+})
+
+
+email.addEventListener('input', () => {
+    if (!email.checkValidity()) {
+        email.style.border = '2.5px  solid red';
+        emailErrorMsg.textContent = "Please provide a valid email address"
+
+    } else {
+        email.style.border = '2.5px  solid green';
+        emailErrorMsg.textContent = ''
+
+    };
+
+})
+
+// Submit Event listner to create an order and generate order ID 
 
 form.addEventListener('submit', function(event) {
     event.preventDefault()
 
-
     if (!firstName.checkValidity()) {
         firstNameErrorMsg.textContent = "Please provide a valid first name";
-    } else { firstNameErrorMsg.textContent = ""; };
+        firstName.style.border = '2.5px solid red';
+    } else {
+        firstNameErrorMsg.textContent = "";
+    };
 
     if (!lastName.checkValidity()) {
         lastNameErrorMsg.textContent = "Please provide a valid last name";
+        lastName.style.border = '2.5px  solid red';
     } else { lastNameErrorMsg.textContent = ""; };
 
     if (!address.checkValidity()) {
         addressErrorMsg.textContent = "Please provide a valid address";
+        address.style.border = '2.5px  solid red';
     } else { addressErrorMsg.textContent = ""; };
 
     if (!city.checkValidity()) {
         cityErrorMsg.textContent = "Please provide a valid city name";
+        city.style.border = '2.5px  solid red';
     } else { cityErrorMsg.textContent = ""; };
 
     if (!email.checkValidity()) {
         emailErrorMsg.textContent = "Please provide a valid email address";
+        email.style.border = '2.5px  solid red';
     } else { emailErrorMsg.textContent = ""; };
 
 
-
     if (form.checkValidity()) {
-        const formData = new FormData(form)
-        const firstName = formData.get('firstName')
-        const lastName = formData.get('lastName')
-        const address = formData.get('address')
-        const city = formData.get('city')
-        const email = formData.get('email')
+
+        const productIDs = cart.map(product => product._id)
 
         const finalData = {
-            firstName: formData.get('firstName'),
-            lastName: formData.get('lastName'),
-            address: formData.get('address'),
-            city: formData.get('city'),
-            email: formData.get('email'),
-            product: productIDs
+            contact: {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                address: address.value,
+                city: city.value,
+                email: email.value,
+            },
+
+            products: productIDs
         }
 
-        console.log(finalData)
 
         const options = {
             method: 'POST',
@@ -267,16 +319,20 @@ form.addEventListener('submit', function(event) {
             },
             body: JSON.stringify(finalData),
         };
+        async function orderRequest() {
+            const response = await fetch('http://localhost:3000/api/products/order', options);
+            const orderIdResquest = await response.json();
+            return orderIdResquest;
+        }
 
-        fetch('http://localhost:3000/api/products/order', options)
+        orderRequest().then(orderIdResquest => {
+            localStorage.setItem('OrderIdGenerator', JSON.stringify(orderIdResquest.orderId))
+        });
 
-        // Converting to JSON
-        .then(response => response.json())
-
-        // Displaying results to console
-        .then(json => console.log(json));
+        document.location.href = "./confirmation.html";
 
     } else {
         event.stopPropagation()
     }
+
 }, false)
