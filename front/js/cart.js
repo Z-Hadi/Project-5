@@ -329,7 +329,7 @@ form.addEventListener('submit', function(event) {
             localStorage.setItem('OrderIdGenerator', JSON.stringify(orderIdResquest.orderId))
         });
 
-        document.location.href = "./confirmation.html";
+
 
     } else {
         event.stopPropagation()
