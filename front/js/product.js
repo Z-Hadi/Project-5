@@ -1,12 +1,12 @@
+// URLSearchParams used to get the user selection from the home page
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
 
+// Using fetch to get the product details from the API
 fetch('http://localhost:3000/api/products/' + productId)
     .then(response => response.json())
     .then(product => {
         /* Getting access to DOM elements */
-        console.log(product);
-
         const articaleImage = document.querySelector('.item__img');
         const itemTitle = document.getElementById('title');
         const itemPrice = document.getElementById('price');
@@ -15,12 +15,10 @@ fetch('http://localhost:3000/api/products/' + productId)
         const button = document.getElementById('addToCart');
         const itemQuantity = document.getElementById('quantity');
 
-
-
         /* Creating the missing elements */
 
         const newImage = document.createElement('img');
-
+        // For loop to call all the product's colors for the drop menu
         for (let i = 0; i < product.colors.length; i++) {
             const option = document.createElement('option');
             option.setAttribute('value', product.colors[i]);
@@ -32,8 +30,6 @@ fetch('http://localhost:3000/api/products/' + productId)
         /* Setting elements attributes */
         newImage.setAttribute('src', product.imageUrl);
         newImage.setAttribute('alt', product.altTxt);
-        // itemQuantity.setAttribute('','required')
-
 
 
         /* Modifying Elements */
@@ -45,10 +41,6 @@ fetch('http://localhost:3000/api/products/' + productId)
         /* Adding new elements to the  DOM */
 
         articaleImage.appendChild(newImage);
-
-
-
-
 
         function getCart() {
             let cart = localStorage.getItem('basketContent')
@@ -62,13 +54,18 @@ fetch('http://localhost:3000/api/products/' + productId)
             return cart
         };
 
+
         function setCart(cart) {
             localStorage.setItem('basketContent', JSON.stringify(cart))
         };
 
+        /** 
+         *  Function to add a product to the cart, if the product specs are different from ones in the carts
+         * if  a product with the same color exicts in the cart this function will increase the qty with the new input value
+         */
         function addToCart(product, cart) {
             let productExists = false
-                // Add a product
+                // Add a product to the cart 
             for (let i = 0; i < cart.length; i++) {
                 if (product._id === cart[i]._id && cart[i].color === product.color) {
                     cart[i].quantity += product.quantity
@@ -83,9 +80,10 @@ fetch('http://localhost:3000/api/products/' + productId)
 
             return cart
         };
+
+        // EventListener for "add to cart" button
         button.addEventListener('click', () => {
             if (colorSelect.value != 0 && parseInt(itemQuantity.value) > 0) {
-                console.log(colorSelect);
                 const currentCart = getCart()
 
                 const cart = addToCart({
@@ -102,16 +100,18 @@ fetch('http://localhost:3000/api/products/' + productId)
                 document.location.href = "./cart.html";
             }
 
+            // If statement to highlight the color field if the user clicked "Add to cart" button without adding valid color.
             if (!colorSelect.value) {
                 colorSelect.style.border = " 2px red solid";
             }
+            // If statement to highlight the quantity field if the user clicked "Add to cart" button without adding valid qty.
             if (parseInt(itemQuantity.value) <= 0) {
                 itemQuantity.style.border = " 2px red solid";
             }
 
 
         });
-
+        // EventListener for the quantity input changes
         itemQuantity.addEventListener('change', () => {
 
             if (parseInt(itemQuantity.value) > 0) {
@@ -121,6 +121,7 @@ fetch('http://localhost:3000/api/products/' + productId)
             }
         });
 
+        // EventListener for the color input changes
         colorSelect.addEventListener('change', () => {
 
             if (colorSelect.value != 0) {

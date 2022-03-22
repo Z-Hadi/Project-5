@@ -1,3 +1,4 @@
+//function to get the cart details from the local storage 
 function getCart() {
     let cart = localStorage.getItem("basketContent");
 
@@ -13,10 +14,11 @@ function getCart() {
 let cart = getCart();
 displayCart(cart);
 
+//function to set the cart details on the local storage
 function setCart(cart) {
     localStorage.setItem("basketContent", JSON.stringify(cart));
 };
-
+//function to display the updated the total price and articals qyt
 function updateTotal(cost, quantity) {
     const quantitySpan = document.getElementById("totalQuantity");
     const priceSpan = document.getElementById("totalPrice");
@@ -24,7 +26,7 @@ function updateTotal(cost, quantity) {
     priceSpan.textContent = cost;
 };
 
-
+//function to update the total price and articals qyt when the page loaded
 function getTotal(cart) {
     let cost = 0;
     let quantity = 0;
@@ -37,6 +39,7 @@ function getTotal(cart) {
     return { cost, quantity };
 };
 
+//function to delete a product from the cart
 function deleteCartItem(cart, index) {
     cart.splice(cart.indexOf(cart[index]), 1);
     setCart(cart);
@@ -60,7 +63,7 @@ function displayCart(cart) {
 
     for (let i = 0; i < cart.length; i++) {
         const product = cart[i];
-
+        //function to update the total price and articals qyt
         cost += product.price * product.quantity;
         quantity += product.quantity;
         quantitySpan.textContent = quantity;
@@ -112,11 +115,6 @@ function displayCart(cart) {
         deleteItem.textContent = "Delete ";
 
         /* Adding new elements to the  DOM */
-
-
-        const productIDs = [];
-        productIDs.push = (cart[i]._id);
-
         cartSection.appendChild(cartArticale);
         cartImageDiv.appendChild(cartImage);
         cartArticale.appendChild(cartImageDiv);
@@ -132,12 +130,13 @@ function displayCart(cart) {
         cartSettingsDiv.appendChild(cartDeleteDiv);
         cartContentDiv.appendChild(cartSettingsDiv);
 
-        /* Event Listeners */
+        /* Event Listener for delete button */
 
         deleteItem.addEventListener("click", () => {
             deleteCartItem(cart, i)
         });
 
+        /* Event Listener for quantity field input  */
         quantityInput.addEventListener("change", () => {
             let newQuantity = parseInt(quantityInput.value);
             if (newQuantity >= 1 && newQuantity <= 100) {
@@ -151,6 +150,7 @@ function displayCart(cart) {
                 setCart(cart);
             }
         });
+        /* Event Listener for quantity field input  */
         quantityInput.addEventListener("blur", () => {
             let newQuantity = parseInt(quantityInput.value);
 
@@ -202,17 +202,18 @@ const form = document.querySelector('.cart__order__form');
 form.setAttribute('novalidate', true)
 
 
-
+/* Event Listener to highlight first name field input with Green if the input is valid and red if the input is invalid  */
 firstName.addEventListener('input', () => {
-    if (!firstName.checkValidity()) {
-        firstName.style.border = '2.5px  solid red';
-        firstNameErrorMsg.textContent = "Please provide a valid first name"
-    } else {
-        firstName.style.border = '2.5px  solid green';
-        firstNameErrorMsg.textContent = ''
-    };
+        if (!firstName.checkValidity()) {
+            firstName.style.border = '2.5px  solid red';
+            firstNameErrorMsg.textContent = "Please provide a valid first name"
+        } else {
+            firstName.style.border = '2.5px  solid green';
+            firstNameErrorMsg.textContent = ''
+        };
 
-})
+    })
+    /* Event Listener to highlight last name field input with Green if the input is valid and red if the input is invalid  */
 
 lastName.addEventListener('input', () => {
     if (!lastName.checkValidity()) {
@@ -225,17 +226,19 @@ lastName.addEventListener('input', () => {
 
 })
 
+/* Event Listener to highlight address field input with Green if the input is valid and red if the input is invalid  */
 
 address.addEventListener('input', () => {
-    if (!address.checkValidity()) {
-        address.style.border = '2.5px  solid red';
-        addressErrorMsg.textContent = "Please provide a valid address "
-    } else {
-        address.style.border = '2.5px  solid green';
-        addressErrorMsg.textContent = ''
-    };
+        if (!address.checkValidity()) {
+            address.style.border = '2.5px  solid red';
+            addressErrorMsg.textContent = "Please provide a valid address "
+        } else {
+            address.style.border = '2.5px  solid green';
+            addressErrorMsg.textContent = ''
+        };
 
-})
+    })
+    /* Event Listener to highlight city name field input with Green if the input is valid and red if the input is invalid  */
 
 city.addEventListener('input', () => {
     if (!city.checkValidity()) {
@@ -248,6 +251,7 @@ city.addEventListener('input', () => {
 
 })
 
+/* Event Listener to highlight email address field input with Green if the input is valid and red if the input is invalid  */
 
 email.addEventListener('input', () => {
     if (!email.checkValidity()) {
@@ -311,7 +315,7 @@ form.addEventListener('submit', function(event) {
             products: productIDs
         }
 
-
+        // Fetch post requst options 
         const options = {
             method: 'POST',
             headers: {
@@ -319,17 +323,18 @@ form.addEventListener('submit', function(event) {
             },
             body: JSON.stringify(finalData),
         };
-        async function orderRequest() {
-            const response = await fetch('http://localhost:3000/api/products/order', options);
-            const orderIdResquest = await response.json();
-            return orderIdResquest;
-        }
 
-        orderRequest().then(orderIdResquest => {
-            localStorage.setItem('OrderIdGenerator', JSON.stringify(orderIdResquest.orderId))
-        });
+        let orderIdResquest;
 
+        // Fetch request to get the order ID from the API
+        fetch('http://localhost:3000/api/products/order', options)
 
+        .then(response => response.json())
+            .then(data => {
+                orderIdResquest = data;
+                localStorage.setItem('OrderIdGenerator', JSON.stringify(orderIdResquest.orderId));
+                document.location.href = "./confirmation.html";
+            })
 
     } else {
         event.stopPropagation()

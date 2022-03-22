@@ -1,15 +1,15 @@
+// USing fetch to get the products details from the API
 fetch('http://localhost:3000/api/products')
     .then(response => response.json())
     .then(products => {
         for (let i = 0; i < products.length; i++) {
             const product = products[i];
-            console.log(products);
+
             /* Getting access to DOM elements */
 
             const section = document.getElementById('items');
 
             /* Creating the missing elements */
-
             const newLink = document.createElement('a');
             const newArticale = document.createElement('article');
             const newImage = document.createElement('img');
@@ -18,7 +18,6 @@ fetch('http://localhost:3000/api/products')
 
             /* Setting elements attributes */
             const productId = product._id;
-            console.log(productId);
             newLink.setAttribute('href', './product.html?id=' + productId);
             newImage.setAttribute('src', product.imageUrl);
             newImage.setAttribute('alt', product.altTxt);
@@ -30,8 +29,7 @@ fetch('http://localhost:3000/api/products')
             newParaghrapg.textContent = product.description;
 
 
-            /* Adding new elements to the  DOM */
-
+            /* Adding new elements to the DOM */
             newArticale.appendChild(newImage);
             newArticale.appendChild(newHeading);
             newArticale.appendChild(newParaghrapg);
